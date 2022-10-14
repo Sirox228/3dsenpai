@@ -2858,9 +2858,13 @@ class PlayState extends MusicBeatState
 	{
 		if (SONG.needsVoices)
 		{
-			if (music.time > Conductor.songPosition + 20 || music.time < Conductor.songPosition - 20)
+			/* if (music.time > Conductor.songPosition + 20 || music.time < Conductor.songPosition - 20)
 			{
 				// trace("GOTTA RESYNC");
+				resyncVocals();
+			}*/
+			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
+			{
 				resyncVocals();
 			}
 		}
