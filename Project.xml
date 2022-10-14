@@ -158,6 +158,7 @@
 	<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
 	<config:android permission="android.permission.ACCESS_WIFI_STATE" />
 	<config:android permission="android.permission.INTERNET" />
+	<config:android permission="android.permission.RECORD_AUDIO" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
