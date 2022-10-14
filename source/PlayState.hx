@@ -313,7 +313,7 @@ class PlayState extends MusicBeatState
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
 
-		music = new AudioStreamThing(Paths.opus(SONG.song + "_Inst"), true);
+		// music = new AudioStreamThing(Paths.opus(SONG.song + "_Inst"), true);
 
 		if (Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -1187,7 +1187,8 @@ class PlayState extends MusicBeatState
 
 		if (sectionStart)
 		{
-			music.time = sectionStartTime;
+			// music.time = sectionStartTime;
+			FlxG.sound.music.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
 		}
@@ -1214,7 +1215,7 @@ class PlayState extends MusicBeatState
 			vocals = new AudioStreamThing(''); */
 
 		if (SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+			vocals = new FlxSound().loadEmbedded(Paths.music(SONG.song + "_Voices"));
 		else
 			vocals = new FlxSound();
 
@@ -1558,8 +1559,8 @@ class PlayState extends MusicBeatState
 
 			//============================================================= */
 
-		if (music.isDone && !endingSong)
-			endSong();
+		// if (music.isDone && !endingSong)
+			// endSong();
 
 		keyCheck(); // Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
 
@@ -1778,8 +1779,8 @@ class PlayState extends MusicBeatState
 			paused = true;
 
 			vocals.stop();
-			// FlxG.sound.music.stop();
-			music.stop();
+			FlxG.sound.music.stop();
+			// music.stop();
 
 			PlayerSettings.menuControls();
 			// FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
@@ -1988,8 +1989,8 @@ class PlayState extends MusicBeatState
 	{
 		endingSong = true;
 		canPause = false;
-		// FlxG.sound.music.volume = 0;
-		music.volume = 0;
+		FlxG.sound.music.volume = 0;
+		// music.volume = 0;
 		vocals.volume = 0;
 		if (SONG.validScore)
 		{
