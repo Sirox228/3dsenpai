@@ -18,14 +18,17 @@ class Main extends Sprite
 	{
 		super();
 
+		SUtil.uncaughtErrorHandler();
+
 		#if sys
 		novid = Sys.args().contains("-novid");
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
-		addChild(new FlxGame(0, 0, Startup, 1, 144, 144, true));
+		SUtil.check();
 
-		#if !mobile
+		addChild(new FlxGame(0, 0, Startup, 1, 60, 60, true));
+
 		fpsDisplay = new FPS_Mem(10, 3, 0xFFFFFF);
 		fpsDisplay.visible = true;
 		addChild(fpsDisplay);
@@ -40,7 +43,6 @@ class Main extends Sprite
 			case 2:
 				Main.fpsDisplay.visible = false;
 		}
-		#end
 
 		FlxG.signals.postStateSwitch.add(function()
 		{

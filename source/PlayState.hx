@@ -318,7 +318,7 @@ class PlayState extends MusicBeatState
 		if (Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
 		else
-			openfl.Lib.current.stage.frameRate = 144;
+			openfl.Lib.current.stage.frameRate = 60;
 
 		camTween = FlxTween.tween(this, {}, 0);
 		camZoomTween = FlxTween.tween(this, {}, 0);

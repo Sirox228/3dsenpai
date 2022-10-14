@@ -7,7 +7,7 @@ class LoadingSubState extends FlxSubState
 	override function create()
 	{
 		super.create();
-		openfl.Lib.current.stage.frameRate = 144;
+		openfl.Lib.current.stage.frameRate = 60;
 		bgColor = FlxColor.BLACK;
 	}
 

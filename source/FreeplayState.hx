@@ -34,7 +34,7 @@
 // 	override function create()
 // 	{
 
-// 		openfl.Lib.current.stage.frameRate = 144;
+// 		openfl.Lib.current.stage.frameRate = 60;
 		
 // 		curSelected = 0;
 

@@ -21,7 +21,7 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		super.create();
 
-		openfl.Lib.current.stage.frameRate = 144;
+		openfl.Lib.current.stage.frameRate = 60;
 		
 		if (PlayState.storyPlaylist.length > 1 && PlayState.isStoryMode){
 			menuItems.insert(2, "Skip Song");
