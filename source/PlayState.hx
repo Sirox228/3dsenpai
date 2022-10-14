@@ -133,9 +133,9 @@ class PlayState extends MusicBeatState
 	private var sectionHasBFNotes:Bool = false;
 	private var sectionHaveNotes:Array<Array<Bool>> = [];
 
-	// private var vocals:FlxSound;
-	var music:AudioStreamThing;
-	var vocals:AudioStreamThing;
+	private var vocals:FlxSound;
+	// var music:AudioStreamThing;
+	// var vocals:AudioStreamThing;
 
 	private var dad:Character3D;
 	private var gf:Character3D;
@@ -1177,14 +1177,13 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
-		// FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
-
-		// FlxG.sound.music.onComplete = endSong;
-		// vocals.play();
-
-		AudioStreamThing.playGroup();
-		music.play();
+		FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
+		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
+
+		/* AudioStreamThing.playGroup();
+		music.play();
+		vocals.play(); */
 
 		if (sectionStart)
 		{
@@ -1209,17 +1208,19 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
-		{
-			// vocals = new FlxSound().loadEmbedded(Paths.music(curSong + "_Voices"));
+		/* if (SONG.needsVoices)
 			vocals = new AudioStreamThing(Paths.opus(curSong + "_Voices"), true);
-		}
 		else
-			vocals = new AudioStreamThing('');
+			vocals = new AudioStreamThing(''); */
 
-		// FlxG.sound.list.add(vocals);
-		add(music);
-		add(vocals);
+		if (SONG.needsVoices)
+			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+		else
+			vocals = new FlxSound();
+
+		FlxG.sound.list.add(vocals);
+		// add(music);
+		// add(vocals);
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
@@ -1439,11 +1440,18 @@ class PlayState extends MusicBeatState
 	{
 		if (paused)
 		{
-			if (music != null)
+			/* if (music != null)
 			{
 				// music.pause();
 				// vocals.pause();
 				AudioStreamThing.pauseGroup();
+			}*/
+
+			if (FlxG.sound.music != null)
+			{
+				FlxG.sound.music.pause();
+				if (SONG.needsVoices)
+					vocals.pause();
 			}
 
 			// if (!startTimer.finished)
@@ -1480,11 +1488,13 @@ class PlayState extends MusicBeatState
 
 		if (paused)
 		{
-			if (music != null && !startingSong)
+			/* if (music != null && !startingSong)
 			{
 				AudioStreamThing.playGroup();
 				resyncVocals();
-			}
+			} */
+			if (FlxG.sound.music != null && !startingSong)
+				resyncVocals();
 
 			// if (!startTimer.finished)
 			// 	startTimer.active = true;
@@ -1507,11 +1517,12 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
-		// vocals.pause();
-		// music.play();
-		Conductor.songPosition = music.time;
-		// vocals.time = Conductor.songPosition;
-		// vocals.play();
+		// Conductor.songPosition = music.time;
+		vocals.pause();
+		FlxG.sound.music.play();
+		Conductor.songPosition = FlxG.sound.music.time;
+		vocals.time = Conductor.songPosition;
+		vocals.play();
 	}
 
 	private var paused:Bool = false;
@@ -3359,9 +3370,9 @@ class PlayState extends MusicBeatState
 		if (view != null)
 			view.destroy();
 		view = null;
-		vocals = FlxDestroyUtil.destroy(vocals);
-		music = FlxDestroyUtil.destroy(music);
-		AudioStreamThing.destroyGroup();
+		// vocals = FlxDestroyUtil.destroy(vocals);
+		// music = FlxDestroyUtil.destroy(music);
+		// AudioStreamThing.destroyGroup();
 		super.destroy();
 		if (instance == this)
 		{
