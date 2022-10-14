@@ -39,6 +39,7 @@ import openfl.system.System;
 import openfl.text.*;
 import openfl.ui.*;
 import openfl.utils.ByteArray;
+import openfl.utils.Assets;
 import sys.FileSystem;
 
 class ModelThing
@@ -125,7 +126,7 @@ class ModelThing
 				trace("ERROR: TEXTURE OF NAME '" + modelName + "'.atf CAN'T BE FOUND!");
 				return;
 			}
-			atfBytes = ByteArray.fromFile('assets/models/' + modelName + '/' + modelName + '.atf');
+			atfBytes = Assets.getBytes('assets/models/' + modelName + '/' + modelName + '.atf');
 			atfTex = new ATFTexture(atfBytes);
 			modelMaterial = new TextureMaterial(atfTex);
 		}
