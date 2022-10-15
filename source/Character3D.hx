@@ -80,7 +80,7 @@ class Character3D extends FlxBasic
                     "idleEnd" => "default",
                     "singLEFT" => "singUP"
 				];
-				atf = false;
+				atf = true;
 			case 'gf':
 				modelName = 'gf';
 				modelScale = 1;
@@ -91,7 +91,7 @@ class Character3D extends FlxBasic
 				diffuse = 1;
 				xOffset = -100;
 				yOffset = -20;
-				atf = false;
+				atf = true;
 			case 'senpai':
 				modelName = 'senpai';
 				modelScale = 1;
