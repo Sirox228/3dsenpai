@@ -126,7 +126,7 @@ class ModelThing
 				trace("ERROR: TEXTURE OF NAME '" + modelName + "'.atf CAN'T BE FOUND!");
 				return;
 			}
-			atfBytes = Assets.getBytes('assets/models/' + modelName + '/' + modelName + '.atf');
+			atfBytes = ByteArray.fromBytes(Assets.getBytes('assets/models/' + modelName + '/' + modelName + '.atf'));
 			atfTex = new ATFTexture(atfBytes);
 			modelMaterial = new TextureMaterial(atfTex);
 		}
