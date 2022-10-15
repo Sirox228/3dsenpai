@@ -766,6 +766,10 @@ class PlayState extends MusicBeatState
 		scoreTxt.cameras = [camHUD];
 		// doof.cameras = [camHUD];
 
+		#if mobile
+		addMobileControls();
+		#end
+
 		healthBar.visible = false;
 		healthBarBG.visible = false;
 		iconP1.visible = false;
@@ -1033,6 +1037,10 @@ class PlayState extends MusicBeatState
 	function startCountdown():Void
 	{
 		inCutscene = false;
+
+		#if mobile
+		mobileControls.visible = true;
+		#end
 
 		healthBar.visible = true;
 		healthBarBG.visible = true;
@@ -1616,7 +1624,7 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			doPause();
 		}
@@ -1987,6 +1995,9 @@ class PlayState extends MusicBeatState
 
 	public function endSong():Void
 	{
+		#if mobile
+		mobileControls.visible = false;
+		#end
 		endingSong = true;
 		canPause = false;
 		FlxG.sound.music.volume = 0;
