@@ -61,7 +61,7 @@ class AudioStreamThing extends FlxBasic
 		else
 		{
 			_length = cast(MiniAudio.getLength(sound) * 1000, Float);
-			trace("THIS IS OTHER");
+			trace("THIS IS OTHER AE");
 		}
 		MiniAudio.setTime(sound, 0);
 

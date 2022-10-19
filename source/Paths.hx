@@ -63,10 +63,10 @@ class Paths
 		return file(key, "music", audioExtension);
 	}
 
-	static public function opus(key:String)
+	static public function ogg(key:String)
 	{
-		if (Assets.exists(file(key, "music", "opus")))
-			return file(key, "music", "opus");
+		if (Assets.exists(file(key, "music", "ogg")))
+			return file(key, "music", "ogg");
 		return music(key);
 	}
 

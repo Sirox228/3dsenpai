@@ -1,87 +1,12 @@
 #define STB_VORBIS_HEADER_ONLY
-#include "extras/stb_vorbis.c"
+#include "stb_vorbis.c"
 
-#define MA_NO_OPUS
 #define MINIAUDIO_IMPLEMENTATION
 #include "miniaudio.h"
-#include "extras/miniaudio_libopus.h"
 
 #undef STB_VORBIS_HEADER_ONLY
-#include "extras/stb_vorbis.c"
-
-static ma_result ma_decoding_backend_init__libopus(void* pUserData, ma_read_proc onRead, ma_seek_proc onSeek, ma_tell_proc onTell, void* pReadSeekTellUserData, const ma_decoding_backend_config* pConfig, const ma_allocation_callbacks* pAllocationCallbacks, ma_data_source** ppBackend)
-{
-    ma_result result;
-    ma_libopus* pOpus;
-
-    (void)pUserData;
-
-    pOpus = (ma_libopus*)ma_malloc(sizeof(*pOpus), pAllocationCallbacks);
-    if (pOpus == NULL) {
-        return MA_OUT_OF_MEMORY;
-    }
-
-    result = ma_libopus_init(onRead, onSeek, onTell, pReadSeekTellUserData, pConfig, pAllocationCallbacks, pOpus);
-    if (result != MA_SUCCESS) {
-        ma_free(pOpus, pAllocationCallbacks);
-        return result;
-    }
-
-    *ppBackend = pOpus;
-
-    return MA_SUCCESS;
-}
-
-static ma_result ma_decoding_backend_init_file__libopus(void* pUserData, const char* pFilePath, const ma_decoding_backend_config* pConfig, const ma_allocation_callbacks* pAllocationCallbacks, ma_data_source** ppBackend)
-{
-    ma_result result;
-    ma_libopus* pOpus;
-
-    (void)pUserData;
-
-    pOpus = (ma_libopus*)ma_malloc(sizeof(*pOpus), pAllocationCallbacks);
-    if (pOpus == NULL) {
-        return MA_OUT_OF_MEMORY;
-    }
-
-    result = ma_libopus_init_file(pFilePath, pConfig, pAllocationCallbacks, pOpus);
-    if (result != MA_SUCCESS) {
-        ma_free(pOpus, pAllocationCallbacks);
-        return result;
-    }
-
-    *ppBackend = pOpus;
-
-    return MA_SUCCESS;
-}
-
-static void ma_decoding_backend_uninit__libopus(void* pUserData, ma_data_source* pBackend, const ma_allocation_callbacks* pAllocationCallbacks)
-{
-    ma_libopus* pOpus = (ma_libopus*)pBackend;
-
-    (void)pUserData;
-
-    ma_libopus_uninit(pOpus, pAllocationCallbacks);
-    ma_free(pOpus, pAllocationCallbacks);
-}
-
-static ma_result ma_decoding_backend_get_channel_map__libopus(void* pUserData, ma_data_source* pBackend, ma_channel* pChannelMap, size_t channelMapCap)
-{
-    ma_libopus* pOpus = (ma_libopus*)pBackend;
-
-    (void)pUserData;
-
-    return ma_libopus_get_data_format(pOpus, NULL, NULL, NULL, pChannelMap, channelMapCap);
-}
-
-static ma_decoding_backend_vtable g_ma_decoding_backend_vtable_libopus =
-{
-    ma_decoding_backend_init__libopus,
-    ma_decoding_backend_init_file__libopus,
-    NULL, /* onInitFileW() */
-    NULL, /* onInitMemory() */
-    ma_decoding_backend_uninit__libopus
-};
+#include "stb_vorbis.c"
+// in case this spooks anyone, those includes arent useless lol
 
 ma_resource_manager *init_resource()
 {
@@ -100,16 +25,7 @@ ma_engine *init(ma_resource_manager *resourceManager)
     ma_engine_config engineConfig;
     ma_engine *engine = (ma_engine *)malloc(sizeof(ma_engine));
 
-    ma_decoding_backend_vtable* pCustomBackendVTables[] =
-    {
-        &g_ma_decoding_backend_vtable_libopus
-    };
-
-
     resourceManagerConfig = ma_resource_manager_config_init();
-    resourceManagerConfig.ppCustomDecodingBackendVTables = pCustomBackendVTables;
-    resourceManagerConfig.customDecodingBackendCount = sizeof(pCustomBackendVTables) / sizeof(pCustomBackendVTables[0]);
-    resourceManagerConfig.pCustomDecodingBackendUserData = NULL;
 
     result = ma_resource_manager_init(&resourceManagerConfig, resourceManager);
     if (result != MA_SUCCESS) {
