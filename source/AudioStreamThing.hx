@@ -52,7 +52,7 @@ class AudioStreamThing extends FlxBasic
 
 		if (StringTools.endsWith(filePath, ".ogg"))
 		{
-			var vorb = VorbisFile.fromFile(filePath);
+			var vorb = VorbisFile.fromBytes(openfl.utils.Assets.getBytes(filePath));
 			_length = vorb.timeTotal() * 1000;
 			vorb.clear();
 			vorb = null;
