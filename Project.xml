@@ -61,7 +61,8 @@
 	<assets path="override/" if="override"/-->
 
 	<!--assets path="CHANGELOG.md"/-->
-	<!-- <define name="PRELOAD_ALL" /> -->
+	<!-- <define name="PRELOAD_ALL" /> --
+        <define name="INCLUDE_ARM32_ATOMIC" if="HXCPP_ARMV7" />
 	
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
