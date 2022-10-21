@@ -2,6 +2,8 @@
 	<set name="PROJECT_DIR" value="${this_dir}" />
 
 	<files id='haxe'>
+                <set name="INCLUDE_ARM32_ATOMIC" value="1" if="HXCPP_ARMV7" />
+                <set name="__ANDROID_API__" value="21" if="android" /> <!-- cuz we use ndk r21e to build this shit -->
 		<compilervalue name="-I" value="${PROJECT_DIR}/" />
 		<compilervalue name="-I" value="${PROJECT_DIR}/include" />
 	</files>
