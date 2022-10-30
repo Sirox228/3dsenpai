@@ -6,14 +6,16 @@
 		<compilervalue name="-I" value="${PROJECT_DIR}/include" />
 	</files>
 
-	<target id='haxe' tool='linker' toolid='exe'>
-		<lib name='${PROJECT_DIR}/win/lib/libogg.lib' if='windows HXCPP_M64' />
-		<lib name='${PROJECT_DIR}/win/lib/opus.lib' if='windows HXCPP_M64' />
-		<lib name='${PROJECT_DIR}/win/lib/opusfile.lib' if='windows HXCPP_M64' />
-		<lib name='${PROJECT_DIR}/win/lib32/libogg.lib' if='windows HXCPP_M32' />
-		<lib name='${PROJECT_DIR}/win/lib32/opus.lib' if='windows HXCPP_M32' />
-		<lib name='${PROJECT_DIR}/win/lib32/opusfile.lib' if='windows HXCPP_M32' />
-	</target>
+        <section if="windows">
+	        <target id='haxe' tool='linker' toolid='exe'>
+		        <lib name='${PROJECT_DIR}/win/lib/libogg.lib' if='windows HXCPP_M64' />
+		        <lib name='${PROJECT_DIR}/win/lib/opus.lib' if='windows HXCPP_M64' />
+		        <lib name='${PROJECT_DIR}/win/lib/opusfile.lib' if='windows HXCPP_M64' />
+		        <lib name='${PROJECT_DIR}/win/lib32/libogg.lib' if='windows HXCPP_M32' />
+		        <lib name='${PROJECT_DIR}/win/lib32/opus.lib' if='windows HXCPP_M32' />
+		        <lib name='${PROJECT_DIR}/win/lib32/opusfile.lib' if='windows HXCPP_M32' />
+	        </target>
+        </section>
 	
 	<target id='haxe' tool='linker'>
 		<section if="android">
