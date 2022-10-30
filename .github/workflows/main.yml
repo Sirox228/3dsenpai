@@ -65,7 +65,7 @@ jobs:
           haxelib list
 
       - name: Compile
-        run: haxelib run lime build android -release
+        run: haxelib run lime build android
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
