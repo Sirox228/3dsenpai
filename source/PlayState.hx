@@ -313,7 +313,7 @@ class PlayState extends MusicBeatState
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
 
-		music = new AudioStreamThing(Paths.ogg(SONG.song + "_Inst"), true);
+		music = new AudioStreamThing(Paths.opus(SONG.song + "_Inst"), true);
 
 		if (Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -1218,7 +1218,7 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		if (SONG.needsVoices)
-			vocals = new AudioStreamThing(Paths.ogg(curSong + "_Voices"), true);
+			vocals = new AudioStreamThing(Paths.opus(curSong + "_Voices"), true);
 		else
 			vocals = new AudioStreamThing('');
 
