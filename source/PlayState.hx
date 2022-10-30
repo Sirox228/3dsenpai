@@ -133,9 +133,9 @@ class PlayState extends MusicBeatState
 	private var sectionHasBFNotes:Bool = false;
 	private var sectionHaveNotes:Array<Array<Bool>> = [];
 
-	private var vocals:FlxSound;
-	// var music:AudioStreamThing;
-	// var vocals:AudioStreamThing;
+	//private var vocals:FlxSound;
+	var music:AudioStreamThing;
+	var vocals:AudioStreamThing;
 
 	private var dad:Character3D;
 	private var gf:Character3D;
@@ -313,7 +313,7 @@ class PlayState extends MusicBeatState
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Inst"));
 		// FlxG.sound.cache(Paths.music(SONG.song + "_Voices"));
 
-		// music = new AudioStreamThing(Paths.opus(SONG.song + "_Inst"), true);
+		music = new AudioStreamThing(Paths.opus(SONG.song + "_Inst"), true);
 
 		if (Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;
@@ -1185,18 +1185,18 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
-		FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
+		/*FlxG.sound.playMusic(Paths.music(SONG.song + "_Inst"), 1, false);
 		FlxG.sound.music.onComplete = endSong;
-		vocals.play();
+		vocals.play();*/
 
-		/* AudioStreamThing.playGroup();
+		AudioStreamThing.playGroup();
 		music.play();
-		vocals.play(); */
+		vocals.play();
 
 		if (sectionStart)
 		{
-			// music.time = sectionStartTime;
-			FlxG.sound.music.time = sectionStartTime;
+			music.time = sectionStartTime;
+			//FlxG.sound.music.time = sectionStartTime;
 			Conductor.songPosition = sectionStartTime;
 			vocals.time = sectionStartTime;
 		}
@@ -1217,19 +1217,19 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		/* if (SONG.needsVoices)
+		if (SONG.needsVoices)
 			vocals = new AudioStreamThing(Paths.opus(curSong + "_Voices"), true);
 		else
-			vocals = new AudioStreamThing(''); */
+			vocals = new AudioStreamThing('');
 
-		if (SONG.needsVoices)
+		/*if (SONG.needsVoices)
 			vocals = new FlxSound().loadEmbedded(Paths.music(SONG.song + "_Voices"));
 		else
-			vocals = new FlxSound();
+			vocals = new FlxSound();*/
 
-		FlxG.sound.list.add(vocals);
-		// add(music);
-		// add(vocals);
+		//FlxG.sound.list.add(vocals);
+		add(music);
+	        add(vocals);
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
@@ -1449,19 +1449,19 @@ class PlayState extends MusicBeatState
 	{
 		if (paused)
 		{
-			/* if (music != null)
+			if (music != null)
 			{
-				// music.pause();
-				// vocals.pause();
+				music.pause();
+				vocals.pause();
 				AudioStreamThing.pauseGroup();
-			}*/
+			}
 
-			if (FlxG.sound.music != null)
+			/*if (FlxG.sound.music != null)
 			{
 				FlxG.sound.music.pause();
 				if (SONG.needsVoices)
 					vocals.pause();
-			}
+			}*/
 
 			// if (!startTimer.finished)
 			// 	startTimer.active = false;
@@ -1497,13 +1497,13 @@ class PlayState extends MusicBeatState
 
 		if (paused)
 		{
-			/* if (music != null && !startingSong)
+			if (music != null && !startingSong)
 			{
 				AudioStreamThing.playGroup();
 				resyncVocals();
-			} */
-			if (FlxG.sound.music != null && !startingSong)
-				resyncVocals();
+			}
+			/*if (FlxG.sound.music != null && !startingSong)
+				resyncVocals();*/
 
 			// if (!startTimer.finished)
 			// 	startTimer.active = true;
@@ -1526,9 +1526,9 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
-		// Conductor.songPosition = music.time;
+		Conductor.songPosition = music.time;
 		vocals.pause();
-		FlxG.sound.music.play();
+		//FlxG.sound.music.play();
 		Conductor.songPosition = FlxG.sound.music.time;
 		vocals.time = Conductor.songPosition;
 		vocals.play();
@@ -1567,8 +1567,8 @@ class PlayState extends MusicBeatState
 
 			//============================================================= */
 
-		// if (music.isDone && !endingSong)
-			// endSong();
+		if (music.isDone && !endingSong)
+			endSong();
 
 		keyCheck(); // Gonna stick with this for right now. I have the other stuff on standby in case this still is not working for people.
 
@@ -1787,8 +1787,8 @@ class PlayState extends MusicBeatState
 			paused = true;
 
 			vocals.stop();
-			FlxG.sound.music.stop();
-			// music.stop();
+			//FlxG.sound.music.stop();
+			music.stop();
 
 			PlayerSettings.menuControls();
 			// FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
@@ -2000,8 +2000,8 @@ class PlayState extends MusicBeatState
 		#end
 		endingSong = true;
 		canPause = false;
-		FlxG.sound.music.volume = 0;
-		// music.volume = 0;
+		//FlxG.sound.music.volume = 0;
+		music.volume = 0;
 		vocals.volume = 0;
 		if (SONG.validScore)
 		{
@@ -2869,15 +2869,15 @@ class PlayState extends MusicBeatState
 	{
 		if (SONG.needsVoices)
 		{
-			/* if (music.time > Conductor.songPosition + 20 || music.time < Conductor.songPosition - 20)
+			if (music.time > Conductor.songPosition + 20 || music.time < Conductor.songPosition - 20)
 			{
 				// trace("GOTTA RESYNC");
 				resyncVocals();
-			}*/
-			if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
+			}
+			/*if (vocals.time > Conductor.songPosition + 20 || vocals.time < Conductor.songPosition - 20)
 			{
 				resyncVocals();
-			}
+			}*/
 		}
 
 		/*if (dad.curCharacter == 'spooky' && totalSteps % 4 == 2)
@@ -3386,9 +3386,9 @@ class PlayState extends MusicBeatState
 		if (view != null)
 			view.destroy();
 		view = null;
-		// vocals = FlxDestroyUtil.destroy(vocals);
-		// music = FlxDestroyUtil.destroy(music);
-		// AudioStreamThing.destroyGroup();
+		vocals = FlxDestroyUtil.destroy(vocals);
+		music = FlxDestroyUtil.destroy(music);
+		AudioStreamThing.destroyGroup();
 		super.destroy();
 		if (instance == this)
 		{
