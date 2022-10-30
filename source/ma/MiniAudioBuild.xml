@@ -2,9 +2,33 @@
 	<set name="PROJECT_DIR" value="${this_dir}" />
 
 	<files id='haxe'>
-                <set name="INCLUDE_ARM32_ATOMIC" value="1" if="HXCPP_ARMV7" />
-                <set name="__ANDROID_API__" value="21" if="android" /> <!-- cuz we use ndk r21e to build this shit -->
 		<compilervalue name="-I" value="${PROJECT_DIR}/" />
 		<compilervalue name="-I" value="${PROJECT_DIR}/include" />
 	</files>
+
+	<target id='haxe' tool='linker' toolid='exe'>
+		<lib name='${PROJECT_DIR}/win/lib/libogg.lib' if='windows HXCPP_M64' />
+		<lib name='${PROJECT_DIR}/win/lib/opus.lib' if='windows HXCPP_M64' />
+		<lib name='${PROJECT_DIR}/win/lib/opusfile.lib' if='windows HXCPP_M64' />
+		<lib name='${PROJECT_DIR}/win/lib32/libogg.lib' if='windows HXCPP_M32' />
+		<lib name='${PROJECT_DIR}/win/lib32/opus.lib' if='windows HXCPP_M32' />
+		<lib name='${PROJECT_DIR}/win/lib32/opusfile.lib' if='windows HXCPP_M32' />
+	</target>
+	
+	<target id='haxe' tool='linker'>
+		<section if="android">
+			<lib name='${PROJECT_DIR}/android/lib64/libogg.a' if='HXCPP_ARM64' />
+			<lib name='${PROJECT_DIR}/android/lib64/libopus.a' if='HXCPP_ARM64' />
+			<lib name='${PROJECT_DIR}/android/lib64/libopusfile.a' if='HXCPP_ARM64' />
+			<lib name='${PROJECT_DIR}/android/lib32/libogg.a' if='HXCPP_ARMV7' />
+			<lib name='${PROJECT_DIR}/android/lib32/libopus.a' if='HXCPP_ARMV7' />
+			<lib name='${PROJECT_DIR}/android/lib32/libopusfile.a' if='HXCPP_ARMV7' />
+			<lib name='${PROJECT_DIR}/android/libx86/libogg.a' if='HXCPP_X86' />
+			<lib name='${PROJECT_DIR}/android/libx86/libopus.a' if='HXCPP_X86' />
+			<lib name='${PROJECT_DIR}/android/libx86/libopusfile.a' if='HXCPP_X86' />
+			<lib name='${PROJECT_DIR}/android/libx86_64/libogg.a' if='HXCPP_X86_64' />
+			<lib name='${PROJECT_DIR}/android/libx86_64/libopus.a' if='HXCPP_X86_64' />
+			<lib name='${PROJECT_DIR}/android/libx86_64/libopusfile.a' if='HXCPP_X86_64' />
+		</section>
+	</target>
 </xml>

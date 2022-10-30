@@ -52,7 +52,7 @@ class AudioStreamThing extends FlxBasic
 
 		if (StringTools.endsWith(filePath, ".ogg"))
 		{
-			var vorb = VorbisFile.fromBytes(openfl.utils.Assets.getBytes(filePath));
+			var vorb = VorbisFile.fromFile(filePath);
 			_length = vorb.timeTotal() * 1000;
 			vorb.clear();
 			vorb = null;
@@ -61,7 +61,7 @@ class AudioStreamThing extends FlxBasic
 		else
 		{
 			_length = cast(MiniAudio.getLength(sound) * 1000, Float);
-			trace("THIS IS OTHER AE");
+			trace("THIS IS OTHER");
 		}
 		MiniAudio.setTime(sound, 0);
 
